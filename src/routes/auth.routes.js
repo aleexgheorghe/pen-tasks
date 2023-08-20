@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-// Routes
+// Routes 
 router.post("/signup", signup);
 
 router.post("/signin", signin);
