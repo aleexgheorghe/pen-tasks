@@ -12,6 +12,7 @@ const router = Router();
 
 // Routes
 router.get("/", isAuth, getAllTasks);
+
 router.post("/", isAuth, createTask);
 
 router.get("/:id", isAuth, getTask);

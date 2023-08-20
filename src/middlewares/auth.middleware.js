@@ -9,10 +9,9 @@ export const isAuth = (req, res, next) => {
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedToken) => {
         if (err) {
-            // For better error logging (do not expose these details to end users in production)
             console.error('JWT verification error:', err.message);
 
-            return res.status(401).json({ message: "Unauthorized" }); // Keeping error message consistent for end users.
+            return res.status(401).json({ message: "Unauthorized" });
         }
 
         req.userId = decodedToken.id;
