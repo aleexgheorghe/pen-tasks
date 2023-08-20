@@ -9,12 +9,12 @@ const apiVersion = "/api/v1";
 // Middlewares
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 // Routes
 
 app.get("/", (req, res) => {
-	  res.json({message: "Hello, world!"});
+	res.json({ message: "Hello, world!" });
 });
 
 app.use(`${apiVersion}`, taskRoutes);
@@ -22,10 +22,10 @@ app.use(`${apiVersion}`, authRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {
-	  res.status(500).json({
-			status: "error",
-			message: err.message
-	  });
+	res.status(500).json({
+		status: "error",
+		message: err.message,
+	});
 });
 
 export default app;

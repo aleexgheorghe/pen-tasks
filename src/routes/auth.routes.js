@@ -1,9 +1,9 @@
 import { Router } from "express";
 import {
-  signin,
-  signup,
-  signout,
-  getProfile,
+	signin,
+	signup,
+	signout,
+	getProfile,
 } from "../controllers/auth.controller.js";
 
 const router = Router();
