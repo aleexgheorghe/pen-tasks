@@ -48,24 +48,32 @@ export const signup = async (req, res, next) => {
 		}
 
 		const hashPassword = await bcrypt.hash(password, 10);
-		const gravatar = "https://gravatar.com/avatar/" + md5(email) + "?s=200&d=retro";
+		const gravatarUrl = "https://gravatar.com/avatar/" + md5(email.trim().toLowerCase()) + "?s=200&d=retro";
 
-		const result = await pool.query('INSERT INTO users (name, email, password, gravatar) VALUES ($1, $2, $3, $4) Returning *', [name, email, hashPassword, gravatar]);
+		const result = await pool.query('INSERT INTO users (name, email, password, gravatar) VALUES ($1, $2, $3, $4) RETURNING *', [name, email, hashPassword, gravatarUrl]);
 
 		const token = await createAccessToken({id: result.rows[0].id});
 
 		res.cookie("token", token, {
 			httpOnly: true,
-			sameSite: "none",
+			//secure: process.env.NODE_ENV === "production",
+			//sameSite: "strict",
 			maxAge: 3600000,
 		});
 
 		return res.status(201).json({
-			result: result.rows[0],
+			user: {
+				id: result.rows[0].id,
+				name: result.rows[0].name,
+				email: result.rows[0].email,
+				gravatar: result.rows[0].gravatar
+			},
 			message: "User created successfully",
 		});
 	} catch (error) {
-		if (error.code === '23505') {
+		// Unique violation for PostgreSQL, indicating duplicate email
+		const UNIQUE_VIOLATION = '23505'; 
+		if (error.code === UNIQUE_VIOLATION) {
 			return res.status(400).json({
 				message: "Email already registered",
 			});
