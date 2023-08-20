@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import pool from "../db.js";
+import { createAccessToken } from "../libs/jwt.js";
 
 export const signin = (req, res) => {
 	res.send("Signing in");
@@ -15,10 +16,13 @@ export const signup = async (req, res, next) => {
 
 		const hashPassword = await bcrypt.hash(password, 10);
 
-		await pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [name, email, hashPassword]);
+		const result = await pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3) Returning *', [name, email, hashPassword]);
+
+		const token = await createAccessToken({id: result.rows[0].id});
 
 		return res.status(201).json({
 			message: "Signup success",
+			token: token,
 		});
 	} catch (error) {
 		if (error.code === '23505') {
