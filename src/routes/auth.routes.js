@@ -14,7 +14,7 @@ router.post("/signup", signup);
 
 router.post("/signin", signin);
 
-router.get("/signout", signout);
+router.post("/signout", signout);
 
 router.get("/profile", isAuth, getProfile);
 
