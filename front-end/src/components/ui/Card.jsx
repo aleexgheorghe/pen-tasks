@@ -1,7 +1,7 @@
-export function Card({ children }) {
+export function Card({ children, className }) {
 	return (
-		<div className="bg-zinc-800 rounded-lg shadow-lg p-4 ">{children}</div>
+	  <div className={`bg-zinc-900 p-10 rounded-md ${className}`}>{children}</div>
 	);
-}
-
-export default Card;
+  }
+  
+  export default Card;
