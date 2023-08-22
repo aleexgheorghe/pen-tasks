@@ -1,5 +1,6 @@
 import { Button, Input, Card } from "../components/ui";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 function RegisterPage() {
 	const {
@@ -8,8 +9,15 @@ function RegisterPage() {
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = handleSubmit((data) => {
-		console.log(data);
+	const onSubmit = handleSubmit(async (data) => {
+		const res = await axios.post(
+			"http://localhost:3000/api/v1/auth/signup",
+			data,
+			{
+				withCredentials: true,
+			}
+		);
+		console.log(res);
 	});
 
 	return (
@@ -19,11 +27,11 @@ function RegisterPage() {
 
 				<form onSubmit={onSubmit} className="flex flex-col gap-y-2">
 					<Input
-						placeholder="Enter your username"
-						{...register("username", { required: true })}
+						placeholder="Enter your name"
+						{...register("name", { required: true })}
 					/>
 
-					{errors.username && (
+					{errors.name && (
 						<span className="text-red-500">This field is required</span>
 					)}
 
