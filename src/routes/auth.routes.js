@@ -1,5 +1,7 @@
 import Router from "express-promise-router";
 import { isAuth } from "../middlewares/auth.middleware.js";
+import { validateSchema } from "../middlewares/validate.middleware.js";
+import { signupSchema, signinSchema} from "../schemas/auth.schemas.js";
 import {
 	signin,
 	signup,
@@ -10,9 +12,9 @@ import {
 const router = Router();
 
 // Routes 
-router.post("/signup", signup);
+router.post("/signup", validateSchema(signupSchema), signup);
 
-router.post("/signin", signin);
+router.post("/signin", validateSchema(signinSchema), signin);
 
 router.post("/signout", signout);
 

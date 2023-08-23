@@ -1,13 +1,12 @@
 import { useAuth } from "../components/context/AuthContext";
 
 function ProfilePage() {
-
-	const {user} = useAuth();
+	const { user } = useAuth();
 
 	return (
 		<div>
-            <h1>Profile Page</h1>
-            <p>This is the profile page</p>
+			<h1>Profile Page</h1>
+			<p>This is the profile page</p>
 			{JSON.stringify(user)}
 		</div>
 	);
