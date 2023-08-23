@@ -34,12 +34,7 @@ export const signin = async (req, res) => {
 		maxAge: 3600000,
 	});
 
-	return res.status(200).json({
-		user: {
-			id: result.rows[0].id,
-		},
-		message: "User logged in successfully",
-	});
+	return res.json(result.rows[0]);
 };
 
 export const signup = async (req, res, next) => {

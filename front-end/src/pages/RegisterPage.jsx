@@ -1,7 +1,7 @@
 import { Button, Input, Card, Label } from "../components/ui";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../components/context/AuthContext";
 
 function RegisterPage() {
 	const {
@@ -10,15 +10,12 @@ function RegisterPage() {
 		formState: { errors },
 	} = useForm();
 
+	const { signup } = useAuth();
+	const redirect = useNavigate();
+
 	const onSubmit = handleSubmit(async (data) => {
-		const res = await axios.post(
-			"http://localhost:3000/api/v1/auth/signup",
-			data,
-			{
-				withCredentials: true,
-			}
-		);
-		console.log(res);
+		await signup(data);
+		redirect("/profile");
 	});
 
 	return (
@@ -27,7 +24,6 @@ function RegisterPage() {
 				<h1 className="text-2xl font-bold text-center mb-4">Register</h1>
 
 				<form onSubmit={onSubmit} className="flex flex-col">
-
 					<Label htmlFor="name">Name</Label>
 					<Input
 						placeholder="Enter your name"
@@ -60,13 +56,15 @@ function RegisterPage() {
 						<span className="text-red-500">This field is required</span>
 					)}
 
-					
-
 					<div className="flex flex-col gap-2 mt-4">
-					<Button>Register</Button>
-					<p className="text-sm text-gray-400">Already have an account? <Link to="/login" className="text-blue-400">Login</Link></p>
+						<Button>Register</Button>
+						<p className="text-sm text-gray-400">
+							Already have an account?{" "}
+							<Link to="/login" className="text-blue-400">
+								Login
+							</Link>
+						</p>
 					</div>
-
 				</form>
 			</Card>
 		</div>
