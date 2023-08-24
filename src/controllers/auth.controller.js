@@ -28,11 +28,14 @@ export const signin = async (req, res) => {
 	const token = await createAccessToken({ id: result.rows[0].id });
 
 	res.cookie("token", token, {
-		httpOnly: true,
-		//secure: process.env.NODE_ENV === "production", // use the secure flag in production
-		//sameSite: "strict",
-		maxAge: 3600000,
-	});
+		// httpOnly: true,
+		secure: true,
+		sameSite: "none",
+		maxAge: 24 * 60 * 60 * 1000, // 1 day
+	  });
+	
+
+	console.log("token", token);
 
 	return res.json(result.rows[0]);
 };
@@ -59,11 +62,14 @@ export const signup = async (req, res, next) => {
 		const token = await createAccessToken({ id: result.rows[0].id });
 
 		res.cookie("token", token, {
-			//httpOnly: true,
+			// httpOnly: true,
 			secure: true,
 			sameSite: "none",
-			maxAge: 3600000,
-		});
+			maxAge: 24 * 60 * 60 * 1000, // 1 day
+		  });
+		
+
+		console.log("token", token);
 
 		return res.status(201).json({
 			user: {
