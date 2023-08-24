@@ -18,7 +18,7 @@ function LoginPage() {
 	});
 
 	return (
-		<div className="h-[calc(100vh-4rem)] flex justify-center items-center">
+		<div className="h-[calc(100vh-10rem)] flex items-center justify-center">
 			<Card>
 				{error && <div className="text-red-500 text-center mb-4">{error}</div>}
 
