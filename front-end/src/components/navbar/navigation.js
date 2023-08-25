@@ -1,11 +1,12 @@
-export const navigation = [
-    { name: "About", href: "/about"},
-    { name: "Login", href: "/login"},
-    { name: "Register", href: "/register"},
+export const privateRoutes = [
     { name: "Task", href: "/task"},
     { name: "TaskForm", href: "/task/new"},
     { name: "TaskFormEdit", href: "/tasks/1/edit"},
     { name: "Profile", href: "/profile"},
 ]
 
-export default navigation
+export const publicRoutes = [
+    { name: "About", href: "/about"},
+    { name: "Login", href: "/login"},
+    { name: "Register", href: "/register"},
+]

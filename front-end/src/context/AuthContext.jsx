@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import cookie from "js-cookie";
-import axios from "../api/axios";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
@@ -20,8 +20,11 @@ export function AuthProvider({ children }) {
 	const signin = async (data) => {
 		try {
 			const res = await axios.post(
-				"/auth/signin",
+				"http://localhost:3000/api/v1/auth/signin",
 				data,
+				{
+					withCredentials: true,
+				}
 			);
 			console.log(res);
 			setUser(res.data);
@@ -60,11 +63,28 @@ export function AuthProvider({ children }) {
 		}
 	};
 
+	const signout = async () => {
+		try {
+			const res = await axios.post(
+				"http://localhost:3000/api/v1/auth/signout",
+				{
+					withCredentials: true,
+				}
+			);
+			console.log(res);
+			setUser(null);
+			setIsAuth(false);
+			cookie.remove("token");
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
 		if (cookie.get("token")) {
 			// get profile
 			axios
-				.get("/auth/profile" , {
+				.get("http://localhost:3000/api/v1/auth/profile", {
 					withCredentials: true,
 				})
 				.then((res) => {
@@ -82,7 +102,7 @@ export function AuthProvider({ children }) {
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user, isAuth, error, signup, signin }}>
+		<AuthContext.Provider value={{ user, isAuth, error, signup, signin, signout }}>
 			{children}
 		</AuthContext.Provider>
 	);
